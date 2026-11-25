@@ -1,75 +1,55 @@
-# React + TypeScript + Vite
+# LinkLens
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LinkLens is an educational web app that explains common warning signs in a pasted URL. It uses simple heuristics and does not contact external URL-scanning services.
 
-Currently, two official plugins are available:
+**Live demo:** [Open LinkLens](https://linklens-gqo2czhlo-v-b92d.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Analyzes a URL and explains the signals it finds
+- Checks for patterns such as HTTP, embedded credentials, internationalized domains, numeric IP addresses, and unusually long URLs
+- Provides practical steps users can take before opening an unexpected link
+- Uses a React interface and a REST endpoint
+- Runs locally with Express and deploys with a Vercel API function
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the ESLint configuration
+- React, TypeScript, Vite
+- Tailwind CSS
+- Node.js, Express
+- Vercel Functions
+- GitHub Actions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Run locally
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Install dependencies:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Start the frontend in **Terminal 1**:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Start the Express API in **Terminal 2**:
 
+```bash
+npm run server:dev
+```
+
+## How it works
+
+The app sends the pasted URL as text to `/api/analyze`. The analyzer checks its format and selected URL patterns, then returns an explanation. It does not open or fetch the submitted URL.
+
+## Limitations
+
+LinkLens is a learning project. Its checks are heuristic examples, not a verdict on whether a website is safe. A low-risk result does not guarantee that a link is trustworthy.
+
+For a safe demo, try:
+
+```text
+https://account.verify.example/sign-in
 ```
